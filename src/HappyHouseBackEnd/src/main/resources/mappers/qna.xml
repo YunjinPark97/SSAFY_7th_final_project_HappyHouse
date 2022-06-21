@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.mapper.QNAMapper">
+
+	<!-- 공개글+본인 비밀글 전체 조회 -->
+	<select id="selectOpenQNA" resultType="qna">
+		select articleno, userid, subject, content, hit, regtime
+		from qna
+		where secret = 0 or userid = #{userid}
+		order by articleno desc
+	</select>
+	
+	<!-- 비밀글도 포함하여 전체 조회 -->
+	<select id="selectAllQNA" resultType="qna">
+		select articleno, userid, subject, content, hit, regtime
+		from qna
+		order by articleno desc
+	</select>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectQNAByNo" resultType="qna">
+		select articleno, subject, userid, content, hit, regtime
+		from qna
+		where articleno = #{articleno}
+	</select>
+	
+	<!-- 제목으로 전체 공개 글만 검색 -->
+	<select id="selectOpenQNAByTitle" resultType="qna" parameterType = "string">
+		select articleno, subject, userid, content, hit, regtime
+		from qna
+		where subject like #{query} and (secret = 0 or userid = #{userid})
+		order by articleno desc
+	</select>
+	
+	<!-- 제목으로 모든 글 검색 -->
+	<select id="selectAllQNAByTitle" resultType="qna">
+		select articleno, subject, userid, content, hit, regtime
+		from qna
+		where subject like #{query}
+		order by articleno desc
+	</select>
+	
+	<!-- 제목으로 전체 공개 글만 검색 -->
+	<select id="selectOpenQNAByUserid" resultType="qna">
+		select articleno, subject, userid, content, hit, regtime
+		from qna
+		where userid = #{query} and secret = 0
+		order by articleno desc
+	</select>
+	
+	<!-- 아이디로 전체 공개 글만 검색 -->
+	<select id="selectAllQNAByUserid" resultType="qna">
+		select articleno, subject, userid, content, hit, regtime
+		from qna
+		where userid = #{query}
+		order by articleno desc
+	</select>
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateHit" parameterType="int">
+		update qna
+		set hit = hit + 1
+		where articleno = #{articleno}
+	</update>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertQNA" parameterType="qna">
+		insert into qna (
+			subject, userid, content, secret
+		) values (
+			#{subject}, #{userid}, #{content}, #{secret}
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateQNA" parameterType="map">
+		update qna
+		   set subject = #{qna.subject}, 
+		   	   userid = #{qna.userid}, 
+		   	   content = #{qna.content},
+		   	   secret = #{qna.secret}
+		 where articleno = #{qna.articleno} and userid = #{userid}
+	</update>
+	
+	<update id="forceUpdateQNA" parameterType="qna">
+		update qna
+		set subject = #{subject},
+			userid = #{userid},
+			content = #{content},
+			secret = #{secret}
+		where articleno = #{articleno}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteQNA" parameterType="Map">
+		delete 
+		from qna
+		where articleno = #{articleno} and userid = #{userid}
+	</delete>
+	
+	<delete id="forceDeleteQNA" parameterType="int">
+		delete
+		from qna
+		where articleno = #{articleno}
+	</delete>
+
+</mapper>

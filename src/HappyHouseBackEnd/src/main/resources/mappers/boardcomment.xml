@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.vue.mapper.BoardCommentMapper">
+
+	<insert id="createBoardComment" parameterType="boardcomment">
+		insert into boardcomment (
+			articleno, userid, content
+		) values (
+			#{articleno}, #{userid}, #{content}
+		)
+	</insert>
+	
+	<select id="retrieveBoardComment" resultType="boardcomment">
+		select *
+		from boardcomment
+		where articleno = #{articleno}
+		order by commentno asc
+	</select>
+	
+	
+	<!-- 게시글 수정 -->
+	<update id="forceUpdateBoardComment" parameterType="BoardComment">
+		update boardcomment
+		   set content = #{content}
+		where commentno = #{commentno}
+	</update>
+	
+	<update id="updateBoardComment" parameterType="map">
+		update boardcomment
+		   set content = #{comment.content}
+		where commentno = #{comment.commentno} and userid = #{userid}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="forceDeleteBoardComment" parameterType="int">
+		delete 
+		from boardcomment
+		where commentno = #{commentno}
+	</delete>
+	
+	<delete id="deleteBoardComment" parameterType="map">
+		delete 
+		from boardcomment
+		where commentno = #{commentno} and userid = #{userid}
+	</delete>
+	
+	<delete id="deleteBoardCommentByArticleNo" parameterType="int">
+		delete
+		from boardcomment
+		where articleno = #{articleno}
+	</delete>
+	
+
+</mapper>

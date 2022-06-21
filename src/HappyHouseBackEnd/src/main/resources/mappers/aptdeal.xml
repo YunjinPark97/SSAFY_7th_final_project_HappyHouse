@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.vue.mapper.HouseDealMapper">
+
+	<select id="getAptInSearch" resultType="houseDealDto">
+		select info.dong, h.dealYear, h.dealMonth, info.apartmentName, h.dealAmount, h.area, h.floor
+		from housedeal h
+		left join houseinfo info
+		on h.aptCode = info.aptCode
+		where left(h.aptCode, 2) = #{sidoCode}
+		and info.apartmentName like #{apartName}
+		and dealYear >= 2021;
+	</select>
+	
+	<select id="swap" resultType="string">
+		select left(sidocode, 2)
+		from sidocode
+		where sidoName like #{sido};
+	</select>
+
+</mapper>

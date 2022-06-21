@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.ssafy.vue.mapper.QNACommentMapper">
+	<insert id="createQNAComment" parameterType="qnacomment">
+		insert into qnacomment (
+			articleno, userid, content
+		) values (
+			#{articleno}, #{userid}, #{content}
+		)
+	</insert>
+	
+	<select id="retrieveQNAComment" resultType="qnacomment">
+		select *
+		from qnacomment
+		where articleno = #{articleno}
+		order by commentno asc
+	</select>
+	
+	<update id="forceUpdateQNAComment" parameterType="qnacomment">
+		update qnacomment
+		   set content = #{content}
+		where commentno = #{commentno}
+	</update>
+	<update id="updateQNAComment" parameterType="qnacomment">
+		update qnacomment
+		   set content = #{comment.content}
+		where commentno = #{comment.commentno} and userid = #{userid}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="forceDeleteQNAComment" parameterType="int">
+		delete 
+		from qnacomment
+		where commentno = #{commentno}
+	</delete>
+	<delete id="deleteQNAComment" parameterType="int">
+		delete 
+		from qnacomment
+		where commentno = #{commentno} and userid = #{userid}
+	</delete>
+	
+	<delete id="deleteQNACommentByArticleNo" parameterType="int">
+		delete
+		from qnacomment
+		where articleno = #{articleno}
+	</delete>
+</mapper>
