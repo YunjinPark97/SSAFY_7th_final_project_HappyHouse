@@ -1,5 +1,7 @@
 # SSAFY_7th_final_project_HappyHouse
-SSAFY 1학기 최종 관통 프로젝트 / final project from SSAFY 1st semeter
+SSAFY 1학기 최종 관통 프로젝트 / final project from SSAFY 1st semester
+
+[동영상 링크](https://youtu.be/Dz6QKzc5m8M)
 <br>
 </br>
 
